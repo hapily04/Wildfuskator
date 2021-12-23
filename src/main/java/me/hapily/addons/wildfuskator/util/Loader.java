@@ -1,6 +1,9 @@
 package me.hapily.addons.wildfuskator.util;
 
 import ch.njol.skript.ScriptLoader;
+import ch.njol.skript.Skript;
+import ch.njol.skript.config.Config;
+import ch.njol.util.OpenCloseable;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.*;
 
@@ -13,7 +16,6 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -21,14 +23,16 @@ public class Loader {
 
     private static void loadScript(File f) {
         try {
-            File[] arr = new File[0];
-            List<File> files = new ArrayList<File>(Arrays.asList(arr));
-            files.add(f);
-            arr = files.toArray(arr);
             Class<?> cs = ScriptLoader.class;
-            Method method = cs.getDeclaredMethod("loadScripts", File[].class);
+            Method m = cs.getDeclaredMethod("loadStructure", File.class);
+            m.setAccessible(true);
+            List<Config> config = new ArrayList<Config>();
+            Config cfg = (Config) m.invoke(null, f);
+            assert false;
+            config.add(cfg);
+            Method method = cs.getDeclaredMethod("loadScripts", List.class, OpenCloseable.class);
             method.setAccessible(true);
-            method.invoke(null, (Object) arr);
+            method.invoke(null, config, OpenCloseable.EMPTY);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +59,7 @@ public class Loader {
 
     @SuppressWarnings("resource")
     public static void loadURL(URL url) {
-        File f = new File("plugins" + File.separator + "WildSkript" + File.separator + "tmp.lck");
+        File f = new File("plugins" + File.separator + "Skript" + File.separator + "scripts" + File.separator + "tmp.lck");
         try {
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
             FileOutputStream fos = new FileOutputStream(f);
