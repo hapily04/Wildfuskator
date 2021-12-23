@@ -1,0 +1,8 @@
+name: Wildfuskator
+version: '${project.version}'
+main: me.hapily.addons.wildfuskator.Wildfuskator
+api-version: 1.16
+depend: [Skript]
+authors: [Dzikoysk, hapily]
+description: Obfuscator for Skript (straight from WildSkript)
+website: placeholder
