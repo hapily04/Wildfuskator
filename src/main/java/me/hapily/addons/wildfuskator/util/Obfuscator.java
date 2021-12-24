@@ -21,7 +21,7 @@ public class Obfuscator {
         StringBuilder sb = new StringBuilder("");
         for (char c : code.toCharArray()) {
             int i = (int) c;
-            i = i * power;
+            i = (i * power)*2;
             sb.append(i + "-");
         }
 
@@ -43,7 +43,7 @@ public class Obfuscator {
                 continue;
             }
             int i = Integer.valueOf(un);
-            i = i / power;
+            i = (i / power)/2;
             code.append((char) i);
         }
         return code.toString();
